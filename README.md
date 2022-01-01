@@ -1,6 +1,10 @@
-## Build binary(macos)
+## Dependencies
+- openpyxl
+- requests
+- bs4
+- getmac
+
+## Build binary(single exe)
 ```
-$ pip install easygui
-$ brew install python-tk
-$ pyinstaller main.py
+$ pyinstaller -F main.py
 ```
