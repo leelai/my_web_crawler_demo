@@ -1,13 +1,5 @@
 import openpyxl
-from pathlib import Path
-
 import easygui
-myFile = easygui.fileopenbox()
-print(myFile)
-
-# xlsx_file = Path(myFile)
-wb_obj = openpyxl.load_workbook(myFile)
-sheet = wb_obj.active
 
 pos_name = 'A'
 pos_birth = 'C'
@@ -19,6 +11,10 @@ birth_str= "生日"
 birth2_str= "生日2"
 
 def getUsers():
+    myFile = easygui.fileopenbox()
+    wb_obj = openpyxl.load_workbook(myFile)
+    sheet = wb_obj.active
+
     store_list = []
     total = int(sheet.max_row/3) - 1
     x = range(total)

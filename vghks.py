@@ -1,8 +1,8 @@
-import random
-import time
+import logging
 import requests
 from bs4 import BeautifulSoup
 import re
+import utils
 
 baseUrl = 'https://webreg.vghks.gov.tw'
 queryUrl = baseUrl + '/wps/portal/web/querycancel'
@@ -32,33 +32,37 @@ target = '"action", "'
 def checking(name, id, birth):
   store_list = []
   s = requests.Session()
-  x = s.get(queryUrl, headers = headers, cookies = cookies_dict)
-  start = x.text.index(target) + 11
-  end = x.text.index(');', start) - 1
-  form = x.text[start:end]
-  myobj = {'idType': 'RSHIDNO', 'id': id, 'dateOfBirth': birth}
-  url = baseUrl + form
-  time.sleep(random.uniform(1.0, 2.0))
-  res = s.post(url, data = myobj)
-  soup2 = BeautifulSoup(res.text, 'html.parser')
-  table = soup2.find('table', {'class': 'clinic_tb'})
+  try:
+    x = s.get(queryUrl, headers = headers, cookies = cookies_dict, timeout = utils.timeout)
+    start = x.text.index(target) + 11
+    end = x.text.index(');', start) - 1
+    form = x.text[start:end]
+    myobj = {'idType': 'RSHIDNO', 'id': id, 'dateOfBirth': birth}
+    url = baseUrl + form
+    utils.delay()
+    res = s.post(url, data = myobj, timeout = utils.timeout)
+    soup2 = BeautifulSoup(res.text, 'html.parser')
+    table = soup2.find('table', {'class': 'clinic_tb'})
 
-  if table == None:
-    return store_list
+    if table == None:
+      return store_list
 
-  trs = table.find_all('tr')
-  for tr in trs:
-    if tr.text.find('選擇') >= 0:
-      continue
-    store_details = {"姓名":name, "身份證": id, "日期":None, "科別診室":None, "診號": None, '地點': None, "候診參考時間": None, "醫院": '高雄榮民總醫院'}
-    tds = tr.find_all('td')
+    trs = table.find_all('tr')
+    for tr in trs:
+      if tr.text.find('選擇') >= 0:
+        continue
+      store_details = {"姓名":name, "身份證": id, "日期":None, "科別診室":None, "診號": None, '地點': None, "候診參考時間": None, "醫院": '高雄榮民總醫院'}
+      tds = tr.find_all('td')
 
-    store_details['日期'] = tds[1].text.strip().replace(' ', '')
-    pattern = re.compile(r'\s+')
-    sentence = re.sub(pattern, '', tds[2].text)
-    store_details['科別診室'] = sentence
-    store_details['診號'] = tds[3].text.strip().replace(' ', '')
-    store_details['候診參考時間'] = tds[4].text.strip().replace(' ', '')
-    store_details['地點'] = tds[5].text.strip().replace(' ', '')
-    store_list.append(store_details)
+      store_details['日期'] = tds[1].text.strip().replace(' ', '')
+      pattern = re.compile(r'\s+')
+      sentence = re.sub(pattern, '', tds[2].text)
+      store_details['科別診室'] = sentence
+      store_details['診號'] = tds[3].text.strip().replace(' ', '')
+      store_details['候診參考時間'] = tds[4].text.strip().replace(' ', '')
+      store_details['地點'] = tds[5].text.strip().replace(' ', '')
+      store_list.append(store_details)
+  except Exception as e:
+    print('http error (' + name + ' ' + id + ' 高雄榮民總醫院 )' + str(e))
   return store_list
+# print(checking('test', 'A124365349', '19780210'))
