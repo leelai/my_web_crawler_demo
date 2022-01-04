@@ -2,6 +2,7 @@ import openpyxl
 import easygui
 
 pos_name = 'A'
+pos_gender = 'B'
 pos_birth = 'C'
 pos_id = 'E'
 
@@ -16,17 +17,26 @@ def getUsers():
     sheet = wb_obj.active
 
     store_list = []
-    total = int(sheet.max_row/3) - 1
-    x = range(total)
-    for n in x:
+    # total = int(sheet.max_row/3) - 1
+    totalLine = int(sheet.max_row)
+    # x = range(total)
+    y = range(totalLine)
+    for n in y:
+        current_line = n + 1
+        pos = pos_gender + str(current_line)
+        name = sheet[pos].value
+        if name is None:
+            continue
+        if (name.find('男') == -1 & name.find('女') == -1):
+            continue
+
+        pos = pos_name + str(current_line)
         store_details = {id_str: None, name_str:None, birth_str:None, birth2_str:None}
-        pos = pos_name + str(5 + n * 3)
         name = sheet[pos].value
         start = name.index('\n')
         name = name[start+1:20].strip()
         # print(name)
-
-        pos = pos_birth + str(5 + n * 3)
+        pos = pos_birth + str(current_line)
         birth = sheet[pos].value.replace('/','')
         if birth.index('0') == 0 :
             birth = birth[1:20].strip()
@@ -35,8 +45,10 @@ def getUsers():
         birth2 = str(year) + birth2[1] + birth2[2]
         # print(birth)
 
-        pos = pos_id + str(5 + n * 3)
-        id = sheet[pos].value
+        pos = pos_id + str(current_line)
+        id = sheet[pos].value.strip()
+        if len(id) != 10:
+            continue
         # print(id)
 
         store_details[id_str] = id
