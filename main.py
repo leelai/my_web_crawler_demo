@@ -5,6 +5,7 @@ from xlsxReader import getUsers
 from ndmctsgh import checking as checkingNdmctsgh
 from mmh import checking as checkingMmh
 from vghks import checking as checkVghks
+from service import checking as checkService
 from checkTime import canIUse
 
 utils.initLog()
@@ -39,5 +40,13 @@ if canIUse():
             print(name + " " + id + " 查無資料(高雄榮民總醫院)")
         if len(result3) > 0:
             logging.info(result3)
+
+        #新北市立聯合
+        utils.delay()
+        result4 = checkService(name, id, birth)
+        if len(result4) == 0:
+            print(name + " " + id + " 查無資料(新北市立聯合)")
+        if len(result4) > 0:
+            logging.info(result4)
 else:
     logging.error('expired!')
