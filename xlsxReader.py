@@ -10,6 +10,9 @@ id_str = "身份證"
 name_str = "姓名"
 birth_str= "生日"
 birth2_str= "生日2"
+year_ = "年"
+month= "月"
+day= "日"
 
 def getUsers():
     myFile = easygui.fileopenbox()
@@ -31,7 +34,7 @@ def getUsers():
         if (name.find('男') == -1 & name.find('女') == -1):
             continue
         pos = pos_name + str(current_line)
-        store_details = {id_str: None, name_str:None, birth_str:None, birth2_str:None}
+        store_details = {id_str: None, name_str: None, birth_str: None, birth2_str:None, year_: None, month: None, day: None}
         name = sheet[pos].value
         if name is None:
             continue
@@ -53,5 +56,8 @@ def getUsers():
         store_details[name_str] = name
         store_details[birth_str] = birth
         store_details[birth2_str] = birth2
+        store_details[year_] = birth2[0]
+        store_details[month] = birth2[1]
+        store_details[day] = birth2[2]
         store_list.append(store_details)
     return store_list
