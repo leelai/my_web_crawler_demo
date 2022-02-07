@@ -31,9 +31,11 @@ def checking(name, id, birth):
   store_list = []
   s = requests.Session()
   try:
-    x = s.get(openUrl, headers = headers, timeout = utils.timeout) #有這個cookie才有 ASP.NET_SessionId
-    x = s.get(queryUrl, headers = headers, timeout = utils.timeout)
+    x = s.get(openUrl, headers = headers, timeout = utils.timeout, verify=False) #有這個cookie才有 ASP.NET_SessionId
+    utils.delay()
+    x = s.get(queryUrl, headers = headers, timeout = utils.timeout, verify=False)
     # find form1
+    utils.delay()
     soup = BeautifulSoup(x.text, 'html.parser')
     __VIEWSTATE = soup.find('input', {"id": "__VIEWSTATE"}).get('value')
     __EVENTVALIDATION = soup.find('input', {"id": "__EVENTVALIDATION"}).get('value')
@@ -42,7 +44,7 @@ def checking(name, id, birth):
     myobj = {'__EVENTTARGET': 'search', '__EVENTARGUMENT': '', 'ID_TYPE': 2 , 'TBidNumber': id, 'YEAR_TYPE': 0, 'TByear': birth, '__VIEWSTATE': __VIEWSTATE, '__EVENTVALIDATION': __EVENTVALIDATION}
     # url = baseUrl + form
     # utils.delay()
-    res = s.post(queryUrl, data = myobj, timeout = utils.timeout)
+    res = s.post(queryUrl, data = myobj, timeout = utils.timeout, verify=False)
     soup2 = BeautifulSoup(res.text, 'html.parser')
     # print(soup2.prettify())
     table = soup2.find('table', {'class': 'qry_tab'})

@@ -8,8 +8,8 @@ import logging
 import datetime as dt
 
 timeout = 5 # http request timeout(seconds)
-min = 1.0 # delay min seconds
-max = 2.0 # delay max seconds
+min = 0.5 # delay min seconds
+max = 1.0 # delay max seconds
 
 def delay():
     time.sleep(random.uniform(min, max))

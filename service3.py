@@ -34,6 +34,7 @@ def checking(name, id, birth):
     x.encoding = 'big5'
     # print("encoding: %s" % x.encoding)
     # print("content: \n%s" % x.text)
+    utils.delay()
     # find form1 
     soup = BeautifulSoup(x.text, 'html.parser')
     # print(soup.prettify())
@@ -44,7 +45,6 @@ def checking(name, id, birth):
     # print(__VIEWSTATEGENERATOR)
     myobj = {'code':code,'submit': submit, 'idchart': 'id', 'idchartno': id, 'birth': birth}
     # url = baseUrl + form
-    # utils.delay()
     res = s.post(postUrl, data = myobj, timeout = utils.timeout)
     res.encoding = 'big5'
     soup2 = BeautifulSoup(res.text, 'html.parser')

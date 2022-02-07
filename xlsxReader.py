@@ -44,7 +44,15 @@ def getUsers():
         birth = sheet[pos].value.replace('/','')
         if birth.index('0') == 0 :
             birth = birth[1:20].strip()
-        birth2 = sheet[pos].value.split("/")
+
+        birth2 = sheet[pos].value
+        if birth2.index('0') == 0 :
+            birth2 = birth2[1:20].strip()
+        birth2 = birth2.split("/")
+
+        store_details[year_] = birth2[0]
+        store_details[month] = birth2[1]
+        store_details[day] = birth2[2]
         year = int(birth2[0]) + 1911
         birth2 = str(year) + birth2[1] + birth2[2]
         pos = pos_id + str(current_line)
@@ -56,8 +64,6 @@ def getUsers():
         store_details[name_str] = name
         store_details[birth_str] = birth
         store_details[birth2_str] = birth2
-        store_details[year_] = birth2[0]
-        store_details[month] = birth2[1]
-        store_details[day] = birth2[2]
+
         store_list.append(store_details)
     return store_list

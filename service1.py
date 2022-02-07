@@ -43,7 +43,7 @@ def checking(name, id, birth):
     # print(__VIEWSTATEGENERATOR)
     myobj = {'__VIEWSTATEGENERATOR':__VIEWSTATEGENERATOR,'TxtRegNo': id, 'IBTRegister': '送出', 'txtBirthDate': birth, '__VIEWSTATE': __VIEWSTATE, '__EVENTVALIDATION': __EVENTVALIDATION}
     # url = baseUrl + form
-    # utils.delay()
+    utils.delay()
     res = s.post(queryUrl, data = myobj, timeout = utils.timeout)
     soup2 = BeautifulSoup(res.text, 'html.parser')
     # print(soup2.prettify())

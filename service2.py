@@ -32,18 +32,8 @@ def checking(name, id, year, month, day):
   s = requests.Session()
   try:
     x = s.get(openUrl, headers = headers, timeout = utils.timeout) #有這個cookie才有 ASP.NET_SessionId
-    # s.get(queryUrl, headers = headers, timeout = utils.timeout)
-    # find form1
-    # soup = BeautifulSoup(x.text, 'html.parser')
-    # __VIEWSTATE = soup.find('input', {"id": "__VIEWSTATE"}).get('value')
-    # __EVENTVALIDATION = soup.find('input', {"id": "__EVENTVALIDATION"}).get('value')
-    # __VIEWSTATEGENERATOR = soup.find('input', {"id": "__VIEWSTATEGENERATOR"}).get('value')
-    # print(__VIEWSTATE)
-    # print(__EVENTVALIDATION)
-    # print(__VIEWSTATEGENERATOR)
+    utils.delay()
     myobj = {'PID': id, 'year': year, 'mon': month, 'day': day, 'Submit': '查詢', 'PhoneNum':'', 'IP':''}
-    # url = baseUrl + form
-    # utils.delay()
     res = s.post(queryUrl, data = myobj, timeout = utils.timeout)
     soup2 = BeautifulSoup(res.text, 'html.parser')
     # print(soup2.prettify())
