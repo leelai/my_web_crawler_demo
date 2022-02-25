@@ -24,4 +24,4 @@ def canIUse():
     time = requests.get(currentNetworkTime, headers = headers)
 
     y = json.loads(time.text)
-    return int(y["unixtime"]) < 1646125759
+    return int(y["unixtime"]) < 1648741383

@@ -9,11 +9,14 @@ from service import checking as checkService
 from service1 import checking as checkService1
 from service2 import checking as checkService2
 from service3 import checking as checkService3
+from service4 import checking as checkService4
 from checkTime import canIUse
 
 utils.initLog()
-# result4 = checkService3('name', 'V121311981', '770418')
-
+# result4 = checkService4('name', 'V121311982')
+# print(result4)
+# result = checkService2('name', 'A127942357', '87','11','14')
+# print(result)
 if canIUse():
     users = getUsers()
     for user in users:
@@ -66,19 +69,26 @@ if canIUse():
             logging.info(result4)
 
         #台安醫院
-        utils.delay()
-        result4 = checkService2(name, id, year, month, day)
-        if len(result4) == 0:
-            print(name + " " + id + " 查無資料(台安醫院)")
-        if len(result4) > 0:
-            logging.info(result4)
+        # utils.delay()
+        # result4 = checkService2(name, id, year, month, day)
+        # if len(result4) == 0:
+        #     print(name + " " + id + " 查無資料(台安醫院)")
+        # if len(result4) > 0:
+        #     logging.info(result4)
 
         #遠東聯合診所
+        # utils.delay()
+        # result4 = checkService3(name, id, birth)
+        # if len(result4) == 0:
+        #     print(name + " " + id + " 查無資料(遠東聯合診所)")
+        # if len(result4) > 0:
+        #     logging.info(result4)
+
         utils.delay()
-        result4 = checkService3(name, id, birth)
-        if len(result4) == 0:
-            print(name + " " + id + " 查無資料(遠東聯合診所)")
-        if len(result4) > 0:
+        result5 = checkService4(name, id)
+        if len(result5) == 0:
+            print(name + " " + id + " 查無資料(宏恩綜合醫院)")
+        if len(result5) > 0:
             logging.info(result4)
 else:
     logging.error('expired!')
